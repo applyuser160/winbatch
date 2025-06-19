@@ -1,5 +1,7 @@
 mod sample_ext_lib {
     pub mod book;
+    pub mod sheet;
+    pub mod cell;
     pub mod test_book;
 }
 
@@ -7,6 +9,8 @@ use pyo3::prelude::*;
 use umya_spreadsheet::reader;
 
 use sample_ext_lib::book::Book;
+use sample_ext_lib::sheet::Sheet;
+use sample_ext_lib::cell::Cell;
 
 #[pyfunction]
 pub fn hello_from_bin() -> String {
@@ -34,5 +38,7 @@ pub fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(read_file, m)?)?;
     m.add_function(wrap_pyfunction!(load_workbook, m)?)?;
     m.add_class::<Book>()?;
+    m.add_class::<Sheet>()?;
+    m.add_class::<Cell>()?;
     Ok(())
 }

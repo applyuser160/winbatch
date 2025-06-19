@@ -33,20 +33,6 @@ mod tests {
     }
 
     #[test]
-    fn test_get_value() {
-        let path = "test_book_get_value.xlsx";
-        create_test_excel(path);
-
-        let book = Book::new(path.to_string());
-        assert_eq!(book.get_value("Sheet1".to_string(), "A1".to_string()), "Hello");
-        assert_eq!(book.get_value("Sheet1".to_string(), "B2".to_string()), "World");
-        assert_eq!(book.get_value("Sheet2".to_string(), "A1".to_string()), "Another");
-        assert_eq!(book.get_value("NoSheet".to_string(), "A1".to_string()), "Sheet not found");
-
-        let _ = fs::remove_file(path);
-    }
-
-    #[test]
     fn test_repr() {
         let path = "test_book_repr.xlsx";
         create_test_excel(path);

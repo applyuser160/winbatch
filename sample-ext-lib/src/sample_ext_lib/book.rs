@@ -1,5 +1,7 @@
 use pyo3::prelude::*;
-use umya_spreadsheet::{reader, Spreadsheet, Worksheet};
+use umya_spreadsheet::{reader, Spreadsheet};
+
+use crate::sample_ext_lib::sheet::Sheet;
 
 #[pyclass]
 pub struct Book {
@@ -29,21 +31,34 @@ impl Book {
             .collect()
     }
 
-    pub fn get_value(&self, sheet: String, address: String) -> String {
-        let worksheet = self.get_sheet_by_name(&sheet);
-        return match worksheet {
-            Some(ws) => ws.get_value(address),
-            None => "Sheet not found".to_string(),
-        }
+    pub fn __iter__(&self) -> Vec<Sheet> {
+        self.value.get_sheet_collection()
+            .iter()
+            .map(|sheet| Sheet::new(sheet.get_name().to_string(), sheet.clone()))
+            .collect()
+    }
+
+    pub fn get_sheet_by_name(&self, name: String) -> Sheet {
+        self.get_sheet_by_name_ref(&name)
+            .unwrap_or_else(|| panic!("Sheet '{}' not found", name))
+    }
+
+    fn get_sheet_by_index(&self, index: usize) -> Sheet {
+        self.get_sheet_by_index_ref(&index)
+            .unwrap_or_else(|| panic!("Sheet at index '{}' not found", index))
     }
 }
 
 impl Book {
-    pub fn get_sheet_by_name(&self, name: &String) -> Option<&Worksheet> {
-        self.value.get_sheet_by_name(name)
+    pub fn get_sheet_by_name_ref(&self, name: &String) -> Option<Sheet> {
+        self.value.get_sheet_by_name(&name)
+            .map(|sheet| Sheet::new(sheet.get_name().to_string(), sheet.clone()))
     }
 
-    pub fn get_sheet_by_index(&self, index: &usize) -> Option<&Worksheet> {
+    pub fn get_sheet_by_index_ref(&self, index: &usize) -> Option<Sheet> {
         self.value.get_sheet(index)
+            .map(|sheet| Sheet::new(sheet.get_name().to_string(), sheet.clone()))
     }
 }
+
+

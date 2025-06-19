@@ -21,6 +21,14 @@ impl Book {
         format!("<Book path='{}'>", self.path)
     }
 
+    #[getter(sheetnames)]
+    pub fn sheetnames(&self) -> Vec<String> {
+        self.value.get_sheet_collection()
+            .iter()
+            .map(|sheet| sheet.get_name().to_string())
+            .collect()
+    }
+
     pub fn get_value(&self, sheet: String, address: String) -> String {
         let worksheet = self.get_sheet_by_name(&sheet);
         return match worksheet {

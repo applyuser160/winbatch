@@ -1,6 +1,6 @@
-from sample_ext_lib._core import hello_from_bin, read_file, Book
+from sample_ext_lib._core import hello_from_bin, read_file, load_workbook, Book
 
-__all__ = ["hello", "read_file", "Book"]
+__all__ = ["hello", "read_file", "load_workbook", "Book"]
 
 
 def hello() -> str:

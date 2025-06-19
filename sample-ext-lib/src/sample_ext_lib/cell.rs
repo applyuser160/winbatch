@@ -12,12 +12,10 @@ impl Cell {
         format!("<Cell value='{}'>", self.value.get_value())
     }
 
-    #[getter]
     pub fn get_value(&self) -> String {
         self.value.get_value().to_string()
     }
 
-    #[setter]
     pub fn set_value(&mut self, value: String) {
         self.value.set_value(value);
     }

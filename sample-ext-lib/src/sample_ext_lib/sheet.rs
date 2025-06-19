@@ -1,5 +1,3 @@
-use std::cell;
-
 use pyo3::prelude::*;
 use umya_spreadsheet::Worksheet;
 

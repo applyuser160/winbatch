@@ -18,12 +18,14 @@ def read_excel_for_rust():
     book: Book = load_workbook_ext("./sample2/sample.xlsx")
     assert book.sheetnames == ["シート1"]
     sheet = book.get_sheet_by_name("シート1")
-    assert sheet["A1"].value == "a1"
-    assert sheet.cell(1, 1).value == "a1"
+    assert sheet["A1"].get_value() == "a1"
+    assert sheet.cell(1, 1).get_value() == "a1"
     assert sheet["A1:C2"] == ["a1", "b1", "c1", "a2", "b2", "c2"]
     # sheet["A1"].value = "new_a1"
-    sheet.set_value(1, 1, "new_a1")
-    assert sheet["A1"].value == "new_a1" # TODO: sheet["A1"].value == "a1"となる
+    sheet["A1"].set_value("new_a1")
+    # sheet.set_value(1, 1, "new_a1")
+    print(sheet["A1"].get_value())
+    assert sheet["A1"].get_value() == "new_a1" # TODO: sheet["A1"].value == "a1"となる
     sheet.set_value(1, 1, "a1")
 
 time_py = timeit(read_excel_for_python, number=100)
